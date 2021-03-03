@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "199227644224",
+    "project_id": "enman-tugas-akhir",
+    "storage_bucket": "enman-tugas-akhir.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199227644224:android:9986a984ec06ce573842a5",
+        "android_client_info": {
+          "package_name": "com.example.enmantugasakhir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199227644224-4657aggg1h9f4ps83tldfclp6c6d7p39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD500UOx6cqC3PxuZOyw2D_DcxbH7HBx1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199227644224-4657aggg1h9f4ps83tldfclp6c6d7p39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
