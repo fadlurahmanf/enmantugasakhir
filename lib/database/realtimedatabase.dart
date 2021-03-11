@@ -47,13 +47,14 @@ class RealTimeDatabaseServices{
       return e.toString();
     }
   }
+
   //SET NEW VIRTUAL CURRENCY USER AFTER HE BUY SOMETHING
   static Future updateVirtualCurrency({String email,String newvirtualcurrency})async{
     try{
-      var result = await firebasedatabase.reference().child("reward").child("${email}").update({
+      await firebasedatabase.reference().child("reward").child("${email}").update({
         "virtualcurrency" : "${newvirtualcurrency}",
       });
-      return result;
+      return 'succeed';
     }catch(e){
       return e.toString();
     }

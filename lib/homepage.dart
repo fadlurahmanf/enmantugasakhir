@@ -5,6 +5,7 @@ import 'package:enmantugasakhir/KonsumsiEnergiPage/energyconsumptiongraphicpage.
 import 'package:enmantugasakhir/authservices/authenticationservice.dart';
 import 'package:enmantugasakhir/database/databaseservices.dart';
 import 'package:enmantugasakhir/database/realtimedatabase.dart';
+import 'package:enmantugasakhir/drawer.dart';
 import 'package:enmantugasakhir/loginpage.dart';
 import 'package:enmantugasakhir/peringkat/peringkat.dart';
 import 'package:enmantugasakhir/profil/viewprofil.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        drawer: MainDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.grey[100],
           elevation: 0,
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               //showConfirmLogOutBox();
             })
           ],
-          leading: IconButton(icon: Icon(Icons.menu, color: Colors.black,), onPressed: (){}),
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -231,21 +233,21 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         SizedBox(height: 15.0,),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                child: Text('Peringkat', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.0),),
-                                margin: EdgeInsets.symmetric(horizontal: 30),
-                              ),
-                              Container(
-                                child: Text('Reward', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.0),),
-                                margin: EdgeInsets.symmetric(horizontal: 50),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //     children: <Widget>[
+                        //       Container(
+                        //         child: Text('Peringkat', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.0),),
+                        //         margin: EdgeInsets.symmetric(horizontal: 30),
+                        //       ),
+                        //       Container(
+                        //         child: Text('Reward', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 1.0),),
+                        //         margin: EdgeInsets.symmetric(horizontal: 50),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 10.0),
                           height: 190,
@@ -259,10 +261,13 @@ class _HomePageState extends State<HomePage> {
                                 child: Container(
                                   height: 200,
                                   width: 180,
-                                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Image.asset("assetsphoto/homepage/podium.png"),
+                                      Image.asset("assetsphoto/homepage/podium.png", scale: 7,),
+                                      SizedBox(height: 20,),
+                                      Text("PERINGKAT", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0, fontSize: 17))
                                     ],
                                   ),
                                   decoration: BoxDecoration(
@@ -287,7 +292,13 @@ class _HomePageState extends State<HomePage> {
                                   height: 200,
                                   width: 180,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
+                                      Image.asset("assetsphoto/homepage/reward.png", scale: 8,),
+                                      SizedBox(height: 20,),
+                                      Text("REDEEM", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                                      SizedBox(height: 5,),
+                                      Text("POINT", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                                     ],
                                   ),
                                   decoration: BoxDecoration(

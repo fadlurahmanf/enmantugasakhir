@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:commons/commons.dart';
 import 'package:enmantugasakhir/authservices/authenticationservice.dart';
 import 'package:enmantugasakhir/database/databaseservices.dart';
 import 'package:enmantugasakhir/database/firebasestorage.dart';
@@ -132,12 +133,14 @@ class _RewardPageState extends State<RewardPage> {
                                               int newvirtualcurrencyuser = virtualcurrencyuser-rewardprice;
                                               if(virtualcurrencyuser>=rewardprice){
                                                 var result = await RealTimeDatabaseServices.updateVirtualCurrency(email: user.email.split("@")[0],newvirtualcurrency: newvirtualcurrencyuser.toString());
-                                                print(result);
-                                                setState(() {
+                                                if(result=='succeed'){
+                                                  successDialog(context, "PEMBELIAN SUKSES");
+                                                  setState(() {
 
-                                                });
+                                                  });
+                                                }
                                               }else{
-                                                print("ga ada uang");
+                                                errorDialog(context, "UANG TIDAK MENCUKUPI");
                                               }
                                             },child: Text("BELI", style: TextStyle(color: Colors.white),),
                                             shape: RoundedRectangleBorder(
