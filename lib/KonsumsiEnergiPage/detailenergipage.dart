@@ -18,9 +18,9 @@ class _DetailKonsumsiEnergiPageState extends State<DetailKonsumsiEnergiPage> {
   String arus = "";
   String kwh = "";
   String lamapemakaian = "";
-  String jamlamapemakaian = "";
-  String menitlamapemakaian = "";
-  String rewardpoint = "";
+  String jampemakaian = "";
+  String menitpemakaian = "";
+  String rewardpointharian = "";
 
   @override
   Widget build(BuildContext context) {
@@ -35,245 +35,216 @@ class _DetailKonsumsiEnergiPageState extends State<DetailKonsumsiEnergiPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
             alignment: Alignment.center,
-            color: Colors.grey[100],
-            child: FutureBuilder(
-              future: getDataAsFuture(),
+            color: Colors.white,
+            // height: MediaQuery.of(context).size.height,
+            child: StreamBuilder(
+              stream: RealTimeDatabaseServices.getDataEnergyUser_Stream(),
               builder: (context, snapshot){
                 if(snapshot.hasData){
-                  if(snapshot.data != null) {
-                    return Container(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 20,),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('TEGANGAN', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(tegangan + " volt",
-                                    style: TextStyle(fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 3.0),),)
-                              ],
-                            ),
-                            decoration: BoxDecoration(
+                  Event data = snapshot.data;
+                  kwh = data.snapshot.value['kwh'];
+                  arus = data.snapshot.value['current'];
+                  tegangan = data.snapshot.value['volt'];
+                  lamapemakaian = data.snapshot.value['lamapemakaian']; //dalam satuan jam
+                  rewardpointharian = data.snapshot.value['pointharian'];
+
+                  double waktupemakaian = double.parse(lamapemakaian)*60; //dalam satuan menit
+
+                  jampemakaian = (waktupemakaian/60).toString().split(".")[0];
+
+                  menitpemakaian = "0.${(waktupemakaian/60).toString().split(".")[1]}";
+
+                  double hitungmenitpemakaian = (double.parse(menitpemakaian)*60).roundToDouble();
+
+                  menitpemakaian = hitungmenitpemakaian.toInt().toString();
+
+                  print("${jampemakaian} jam & ${menitpemakaian} menit");
+
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // height: 250,
+                              width: 3*MediaQuery.of(context).size.width/5,
+                              decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
+                                image: DecorationImage(
+                                  image: AssetImage("assetsphoto/icon_detail_energi/picture1.jpg"),
+                                  fit: BoxFit.fitWidth
+                                ),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                              ),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('ARUS', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(arus + " ampere",
-                                    style: TextStyle(fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 3.0),),)
-                              ],
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text("KWH", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                    Text("${kwh}", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                  ],
+                                ),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('KWH', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(kwh + " kwh", style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 3.0),),)
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('LAMA PEMAKAIAN', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(
-                                    jamlamapemakaian + " JAM " + menitlamapemakaian + " MENIT ",
-                                    style: TextStyle(fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 3.0),),)
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('SAKLAR', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(
-                                    double.parse(arus) <= 0.04 ? 'OFF' : 'ON',
-                                    style: TextStyle(fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 3.0),),)
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            width: 350,
-                            height: 130,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: <Widget>[
-                                Container(alignment: Alignment.center,
-                                  child: Text('POINT', style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2.0),),),
-                                SizedBox(height: 40,),
-                                Container(alignment: Alignment.center,
-                                  child: Text(
-                                    rewardpoint,
-                                    style: TextStyle(fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 3.0),),)
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.green[600]),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green[600],
-                                    offset: Offset(-5, 5),
-                                  )
-                                ]
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.green[600],
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(-5, 2),
+                              blurRadius: 5,
+                              color: Colors.black26
+                            )
+                          ]
+                        ),
                       ),
-                    );
-                  }
-                  else{
-                    return CircularProgressIndicator();
-                  }
-                } else {
-                  return Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator(),
-                          SizedBox(height: 20.0,),
-                          Text(snapshot.data.toString()),
-                        ],
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // height: 250,
+                              width: 3*MediaQuery.of(context).size.width/5,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                image: DecorationImage(
+                                    image: AssetImage("assetsphoto/icon_detail_energi/picture4.jpg"),
+                                    fit: BoxFit.fitWidth
+                                ),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text("ARUS", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                    Text("${arus}", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.green[600],
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(-5, 2),
+                                  blurRadius: 5,
+                                  color: Colors.black26
+                              )
+                            ]
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // height: 250,
+                              width: 3*MediaQuery.of(context).size.width/5,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                image: DecorationImage(
+                                    image: AssetImage("assetsphoto/icon_detail_energi/picture3.jpg"),
+                                    fit: BoxFit.fitWidth
+                                ),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text("VOLT", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                    Text("${tegangan}", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.green[600],
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(-5, 2),
+                                  blurRadius: 5,
+                                  color: Colors.black26
+                              )
+                            ]
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // height: 250,
+                              width: 3*MediaQuery.of(context).size.width/5,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                image: DecorationImage(
+                                    image: AssetImage("assetsphoto/icon_detail_energi/picture2.jpg"),
+                                    fit: BoxFit.fitWidth
+                                ),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text("WAKTU", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                    Text("${jampemakaian} JAM", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                    Text("${menitpemakaian} MENIT", style: TextStyle(color: Colors.white, letterSpacing: 1.0, fontWeight: FontWeight.bold, fontSize: 17),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.green[600],
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(-5, 2),
+                                  blurRadius: 5,
+                                  color: Colors.black26
+                              )
+                            ]
+                        ),
+                      ),
+                    ],
                   );
+                }else{
+                  return Center(child: CircularProgressIndicator());
                 }
               },
             ),
@@ -281,49 +252,5 @@ class _DetailKonsumsiEnergiPageState extends State<DetailKonsumsiEnergiPage> {
         ),
       ),
     );
-  }
-
-  getDataAsFuture()async{
-    //dapetin username
-    User user = FirebaseAuth.instance.currentUser;
-    var email = user.email;
-    var username = email.split("@");
-
-    DateTime now = DateTime.now();
-    var tanggalhari_ini = now.day.toString()+"-"+now.month.toString()+"-"+now.year.toString();
-
-    FirebaseDatabase firebasedatabase = FirebaseDatabase.instance;
-    await firebasedatabase.reference().once().then((value){
-      var data = value.value["${username[0]}"]["${tanggalhari_ini}"];
-      if(data['volt']==null){
-        tegangan = "NULL";
-      }
-      if(data['current']==null){
-        arus = "NULL";
-      }
-      if(data['kwh']==null){
-        kwh = "NULL";
-      }
-      if(data['lamapemakaian']==null){
-        lamapemakaian = "NULL";
-      }
-      if(data['point']==null){
-        rewardpoint= "NULL";
-      }
-      if(data['volt']!=null && data['current']!=null && data['kwh']!=null && data['lamapemakaian']!=null&&data['point']!=null) {
-        tegangan = data["volt"];
-        arus = data["current"];
-        kwh = data["kwh"];
-        lamapemakaian = data['lamapemakaian'];
-        rewardpoint = data['point'];
-      }
-      jamlamapemakaian = (lamapemakaian.split("."))[0];
-      double menit = (double.parse(lamapemakaian)-double.parse(jamlamapemakaian))*60;
-      menitlamapemakaian = (menit.toString().split("."))[0];
-      setState(() {
-
-      });
-    });
-    return 'dataelectricty';
   }
 }

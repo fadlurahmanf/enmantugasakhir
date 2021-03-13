@@ -19,7 +19,7 @@ class RealTimeDatabaseServices{
   }
 
   static Future getFromUsername()async{
-    var result = await firebasedatabase.reference().child("${username[0]}").once();
+    var result = await firebasedatabase.reference().child("energi").child("${username[0]}").once();
     return result;
   }
 
@@ -28,13 +28,23 @@ class RealTimeDatabaseServices{
     return result.asStream();
   }
 
-  // static Future getAllData()async{
-  //   var result = firebasedatabase.reference().child("energi").once();
-  //   return result;
-  // }
+  static getDataEnergyUser_Stream(){
+    var result = firebasedatabase.reference().child("energi").child("${username[0]}").child("${tanggalhariIni}").onValue;
+    return result;
+  }
+
+  static Future getDataEnergyUser()async{
+    var result = await firebasedatabase.reference().child("energi").child("${username[0]}").child("${tanggalhariIni}").once();
+    return result;
+  }
 
   static Future getRewardWeekly()async{
-    var result = firebasedatabase.reference().child("reward").once();
+    var result = await firebasedatabase.reference().child("reward").once();
+    return result;
+  }
+
+  static Future getRewardPointForLeaderboard()async{
+    var result = await firebasedatabase.reference().child("reward").orderByChild("weeklypoint").once();
     return result;
   }
 

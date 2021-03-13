@@ -90,7 +90,7 @@ class _GraphicEnergyConsumptionState extends State<GraphicEnergyConsumption> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 10,),
-                  Text("Energi yang dipakai : " + kwh),
+                  Text("Energi yang dipakai : ${kwh} kwh"),
                   SizedBox(height: 10,),
                   Text("Tanggal pemakaian : " + tanggal),
                 ],
@@ -105,6 +105,7 @@ class _GraphicEnergyConsumptionState extends State<GraphicEnergyConsumption> {
                   ),
                 ]
               ),
+              margin: EdgeInsets.symmetric(vertical: 20),
             ),
           ],
         ),

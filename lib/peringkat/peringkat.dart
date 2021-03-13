@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,16 +48,25 @@ class _PeringkatPageState extends State<PeringkatPage> {
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
+          color: Colors.white,
           child: Column(
             children: <Widget>[
+              Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assetsphoto/icon_peringkat/picture1.jpg"),
+                    fit: BoxFit.fitHeight
+                  )
+                ),
+              ),
               // RaisedButton(onPressed: ()async{
-              //   var result = await RealTimeDatabaseServices.getWeeklyPoint();
+              //   var result = await RealTimeDatabaseServices.getRewardWeekly();
               //   DataSnapshot data = result;
               //   Map<dynamic, dynamic> map = data.value;
-              //   map.forEach((key, value) {
-              //     list.add(Peringkat(email: key, score: int.parse(value['weeklypoint'])));
-              //   });
-              //   list.sort((a,b)=>b.score.compareTo(a.score));
+              //   List<Peringkat> listdata = [Peringkat(email: "tffajari",score: 50),Peringkat(email: "ashrioktaviani",score: 50),Peringkat(email: "tffajari",score: 50),Peringkat(email: "ashrioktaviani",score: 50)];
+              //   List<Peringkat> listbaru = [];
               // }),
               Expanded(child: FutureBuilder(
                 future: RealTimeDatabaseServices.getRewardWeekly(),
@@ -64,6 +74,7 @@ class _PeringkatPageState extends State<PeringkatPage> {
                   if(snapshot.hasData){
                     DataSnapshot data = snapshot.data;
                     Map<dynamic, dynamic> map = data.value;
+                    list.clear();
                     map.forEach((key, value) {
                       list.add(Peringkat(email: key, score: int.parse(value['weeklypoint'])));
                     });
@@ -161,112 +172,6 @@ class _PeringkatPageState extends State<PeringkatPage> {
                   }
                 },
               )),
-              // Expanded(
-              //   child: FutureBuilder(
-              //     future: RealTimeDatabaseServices.getAllData(),
-              //     builder: (context, snapshot){
-              //       if(snapshot.hasData){
-              //         DataSnapshot data = snapshot.data;
-              //         Map<dynamic, dynamic> map = data.value;
-              //         map.forEach((key, value) {
-              //           int totalpoint = 0;
-              //           Map<dynamic, dynamic> mapvalue = value;
-              //           mapvalue.forEach((key, value) {
-              //             totalpoint += int.parse(value['point']);
-              //           });
-              //           list.add(Peringkat(email: key, score: totalpoint));
-              //         });
-              //         list.sort((a,b)=>b.score.compareTo(a.score));
-              //         return ListView.builder(
-              //           itemCount: list.length,
-              //           itemBuilder: (context, index){
-              //             String email = "${list[index].email}@gmail.com";
-              //             return Container(
-              //               width: 8*_widthscreen/10,
-              //               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              //               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              //               child: Row(
-              //                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: <Widget>[
-              //                   Container(child: Text((index+1).toString(), style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),)),
-              //                   Expanded(
-              //                       child: Container(
-              //                           child: Row(
-              //                             children: [
-              //                               FutureBuilder(
-              //                                 future: DatabaseServices.getUserData(email: email),
-              //                                 builder: (context, snapshot) {
-              //                                   if(snapshot.hasData){
-              //                                     DocumentSnapshot result = snapshot.data;
-              //                                     return result.data()['profile picture']!=null? FutureBuilder(
-              //                                       future: FirebaseStorageDatabase.getImage(profilepicturename: result.data()['profile picture']),
-              //                                       builder: (context, snapshot){
-              //                                         if(snapshot.hasData){
-              //                                           String profilepicture = snapshot.data;
-              //                                           return CircleAvatar(
-              //                                             radius: 20,
-              //                                             backgroundImage: NetworkImage(profilepicture),
-              //                                           );
-              //                                         }else{
-              //                                           return CircularProgressIndicator();
-              //                                         }
-              //                                       },
-              //                                     )
-              //                                         : CircleAvatar(
-              //                                       radius: 20,
-              //                                       backgroundColor: Colors.grey,
-              //                                     );
-              //                                   }else{
-              //                                     return CircularProgressIndicator();
-              //                                   }
-              //                                 }
-              //                               ),
-              //                               SizedBox(width: 10,),
-              //                               Text(list[index].email, style: list[index].email==user.email.split("@")[0]? TextStyle(letterSpacing: 1.0, fontSize: 17,fontWeight: FontWeight.bold, color: Colors.white) : null,),
-              //                             ],
-              //                           ),
-              //                         margin: EdgeInsets.symmetric(horizontal: 10),
-              //                       ),
-              //                   ),
-              //                   Container(
-              //                     child: (index+1).toString()=="1"? Image.asset("assetsphoto/medal1.png", height: 30,) : (index+1).toString()=="2" ? Image.asset("assetsphoto/medal2.png", height: 30,) : null,
-              //                     width: _widthscreen/10,
-              //                     alignment: Alignment.centerLeft,
-              //                   ),
-              //                   SizedBox(width: 10,),
-              //                   Container(
-              //                     child: Row(
-              //                       children: <Widget>[
-              //                         Text(list[index].score.toString()),
-              //                         SizedBox(width: 10,),
-              //
-              //                         Image.asset("assetsphoto/dollar.png",height: 28,),
-              //                       ],
-              //                     ),
-              //                     width: 2*_widthscreen/10,
-              //                   ),
-              //                 ],
-              //               ),
-              //               decoration: BoxDecoration(
-              //                 color: user.email==email? Colors.green[600] : Colors.white,
-              //                 border: Border.all(color: user.email==email? Colors.green[600] : Colors.teal[900]),
-              //                 borderRadius: BorderRadius.circular(5),
-              //                 boxShadow: [
-              //                   BoxShadow(
-              //                     color: Colors.teal[900],
-              //                     offset: Offset(-3, 5),
-              //                   )
-              //                 ]
-              //               ),
-              //             );
-              //           },
-              //         );
-              //       }else{
-              //         return Center(child: CircularProgressIndicator());
-              //       }
-              //     },
-              //   ),
-              // ),
             ],
           ),
         ),

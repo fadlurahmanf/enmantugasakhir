@@ -71,6 +71,15 @@ flutter:
     - assetsphoto/dollar.png
     - assetsphoto/medal1.png
     - assetsphoto/medal2.png
+    - assetsphoto/icon_detail_energi/picture1.jpg
+    - assetsphoto/icon_detail_energi/picture2.jpg
+    - assetsphoto/icon_detail_energi/picture3.jpg
+    - assetsphoto/icon_detail_energi/picture4.jpg
+    - assetsphoto/icon_detail_energi/picture5.jpg
+    - assetsphoto/icon_detail_energi/picture6.jpg
+    - assetsphoto/icon_detail_energi/picture7.jpg
+    - assetsphoto/icon_peringkat/picture1.jpg
+    - assetsphoto/icon_message/plane.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

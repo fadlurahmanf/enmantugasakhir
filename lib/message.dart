@@ -75,26 +75,81 @@ class _MessageState extends State<Message> {
         body: Container(
           child: Column(
             children: <Widget>[
-              Expanded(child: Container(color: Colors.white,child: MessageConversationList()),),
+              Expanded(child: Container(color: Colors.brown[100],child: MessageConversationList()),),
+              // Container(
+              //   height: 50,
+              //   padding: EdgeInsets.symmetric(horizontal: 20),
+              //   color: Colors.brown[100],
+              //   child: Row(
+              //     children: [
+              //       Expanded(child: Container(child: Text("TEXT"),decoration: BoxDecoration(color: Colors.blue,border: Border.all(color: Colors.red)),)),
+              //       Text("KIRIM")
+              //     ],
+              //   ),
+              // ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                height: 70,
+                color: Colors.brown[100],
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: TextFormField(
-                        controller: messagetext,
-                        decoration: InputDecoration(
-                          hintText: "tulis pesan"
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: messagetext,
+                          decoration: InputDecoration(
+                            hintText: "Ketik Pesan",
+                            border: InputBorder.none
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                     ),
-                    RaisedButton(onPressed: ()async{
-                      Map<String, dynamic> messagemap = {"message" : "${messagetext.text}", "sendBy" : "${user.email}", "time":DateTime.now().millisecondsSinceEpoch};
-                      if(messagetext.text.trim().isNotEmpty){
-                        await DatabaseServices.addConversationMessage(chatroomid: chatroomid, messagemap: messagemap);
-                        messagetext.text = "";
-                      }
-                    },child: Text("pesen"),),
+                    SizedBox(width: 5,),
+                    GestureDetector(
+                      onTap: ()async{
+                          Map<String, dynamic> messagemap = {"message" : "${messagetext.text}", "sendBy" : "${user.email}", "time":DateTime.now().millisecondsSinceEpoch};
+                          if(messagetext.text.trim().isNotEmpty){
+                            await DatabaseServices.addConversationMessage(chatroomid: chatroomid, messagemap: messagemap);
+                            messagetext.text = "";
+                          }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(-2, 2),
+                              color: Colors.black26,
+                              blurRadius: 5
+                            )
+                          ]
+                        ),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          child: Image.asset("assetsphoto/icon_message/plane.png"),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // RaisedButton(onPressed: ()async{
+                    //   Map<String, dynamic> messagemap = {"message" : "${messagetext.text}", "sendBy" : "${user.email}", "time":DateTime.now().millisecondsSinceEpoch};
+                    //   if(messagetext.text.trim().isNotEmpty){
+                    //     await DatabaseServices.addConversationMessage(chatroomid: chatroomid, messagemap: messagemap);
+                    //     messagetext.text = "";
+                    //   }
+                    // },child: Text("pesen"),),
                   ],
                 ),
               ),
